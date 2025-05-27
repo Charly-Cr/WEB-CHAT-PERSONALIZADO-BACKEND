@@ -13,7 +13,7 @@ const sessionJWT = (req, res, next) => {
 res.cookie("token", token, {
     httpOnly: true,  // Evita acceso desde JavaScript
     secure: process.env.NODE_ENV === "production",   // Solo en HTTPS si está en producción
-    sameSite: "Lax",   // Controla el envío entre sitios
+    sameSite: "None",   // Controla el envío entre sitios
     path: "/", // Hace que la cookie sea accesible en toda la app
     maxAge: 86400000, // 1 día
 });
