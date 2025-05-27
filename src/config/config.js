@@ -1,6 +1,7 @@
 require('pg');
 require('pg-hstore');
 require('dotenv').config();
+// Create a new Sequelize instance using the environment variable for the database URL
 
 module.exports = {
   development: {

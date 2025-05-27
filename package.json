@@ -4,16 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "dev": "nodemon src/server",                     
-  "start": "node src/server",                       
-  "migrate": "npx sequelize db:migrate",            
-  "migrate:dev": "npx sequelize db:migrate --env development", 
-  "migrate:prod": "npx sequelize db:migrate --env production",
-  "migrate:undo": "npx sequelize db:migrate:undo",                
-  "migrate:undo:dev": "npx sequelize db:migrate:undo --env development", 
-  "migrate:undo:prod": "npx sequelize db:migrate:undo --env production", 
-  "test": "jest --detectOpenHandles",
-  "pretest": "npm run migrate"
+    "dev": "nodemon src/server",
+    "start": "node src/server",
+    "migrate": "npx sequelize db:migrate",
+    "migrate:dev": "npx sequelize db:migrate --env development",
+    "migrate:prod": "npx sequelize db:migrate --env production",
+    "migrate:undo": "npx sequelize db:migrate:undo",
+    "migrate:undo:dev": "npx sequelize db:migrate:undo --env development",
+    "migrate:undo:prod": "npx sequelize db:migrate:undo --env production",
+    "test": "jest --detectOpenHandles",
+    "pretest": "npm run migrate"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +34,8 @@
     "string-similarity": "^4.0.4"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "jest": "30.0.0-beta.3",
+    "nodemon": "^2.0.20",
+    "supertest": "7.1.1"
   }
 }
