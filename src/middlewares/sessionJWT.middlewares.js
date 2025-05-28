@@ -7,7 +7,7 @@ const sessionJWT = (req, res, next) => {
   const token = jwt.sign(
     { id: user.id, role: user.role },
     process.env.TOKEN_SECRET,
-    { expiresIn: "1d" }
+    // { expiresIn: "1d" }
 );
 // Enviar token en una cookie HTTP-only
 res.cookie("token", token, {
