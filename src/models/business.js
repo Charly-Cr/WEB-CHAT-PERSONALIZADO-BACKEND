@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       comment: "Horario general del negocio (ej. L-V 8am-6pm)"
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true
     },
     businessType: {
