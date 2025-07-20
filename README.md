@@ -22,6 +22,7 @@ Crea un archivo .env en la raíz del proyecto con las siguientes variables:
 PARA TRBAJAR EN DESARROLLO:
 
 DATABASE_URL_DEV=postgres://postgres:root@127.0.0.1:5432/chatbot_db
+NODE_ENV=development
 TOKEN_SECRET=tu_clave_secreta_jwt
 TOKEN_EXPIRES_IN=1d  # Tiempo de expiración del token (opcional)
 

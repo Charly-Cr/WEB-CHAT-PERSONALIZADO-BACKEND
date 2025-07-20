@@ -15,6 +15,7 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5173', // frontend local
   'https://web-chat-personalizado-front.netlify.app' // frontend en producción
+  
 ];
 
 app.use(cors({
