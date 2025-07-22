@@ -12,6 +12,7 @@ const askOpenAI = async (systemPrompt, userPrompt) => {
       { role: "system", content: systemPrompt },  // systemPrompt lo arma tu backend.
       { role: "user", content: userPrompt },   //userPrompt viene del cliente
     ],
+    max_tokens: 5000, // Limita la respuesta
     temperature: 0.7,
   });
 
