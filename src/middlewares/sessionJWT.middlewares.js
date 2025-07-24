@@ -14,7 +14,7 @@ const sessionJWT = (req, res, next) => {
   const token = jwt.sign(
     { id: user.id, role: user.role },
     process.env.TOKEN_SECRET,
-    { expiresIn: JWT_EXPIRATION } // El token expira en 30 días
+    { expiresIn: JWT_EXPIRATION }  // El token expira en 30 días
 );
 // Enviar token en una cookie HTTP-only
 res.cookie("token", token, {
