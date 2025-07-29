@@ -7,7 +7,7 @@ const serviceRouter = express.Router();
 
 serviceRouter.route('/')
   .get(verifyJWT, verifyRoles('superadmin', 'admin'), getAll)   // Solo admins pueden ver sus servicios
-  .post(verifyJWT, verifyRoles('admin'), create);               // Solo admin puede crear servicios
+  .post(verifyJWT, verifyRoles('superadmin','admin'), create);               // Solo admin puede crear servicios
 
 serviceRouter.route('/:id')
   .get(verifyJWT, verifyRoles('superadmin', 'admin'), getOne)   // Admin y superadmin pueden ver

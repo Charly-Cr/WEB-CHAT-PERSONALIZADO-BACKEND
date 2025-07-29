@@ -1,4 +1,3 @@
-// src/services/openai.services.js
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
@@ -12,7 +11,7 @@ const askOpenAI = async (systemPrompt, userPrompt) => {
       { role: "system", content: systemPrompt },  // systemPrompt lo arma tu backend.
       { role: "user", content: userPrompt },   //userPrompt viene del cliente
     ],
-    // max_tokens: 10000, // Limita la respuesta
+    max_tokens: 1000, // Limita la respuesta
     temperature: 0.7,
   });
 
