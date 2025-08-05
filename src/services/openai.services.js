@@ -11,9 +11,13 @@ const askOpenAI = async (systemPrompt, userPrompt) => {
       { role: "system", content: systemPrompt },  // systemPrompt lo arma tu backend.
       { role: "user", content: userPrompt },   //userPrompt viene del cliente
     ],
-    max_tokens: 1000, // Limita la respuesta
+    max_tokens: 150, // Limita la respuesta
     temperature: 0.7,
   });
+
+  // ✅ Puedes mostrar cuántos tokens se usaron (opcional)
+  const usage = response.usage;
+  console.log("Tokens usados:", usage);
 
   return response.choices[0].message.content;
 };
