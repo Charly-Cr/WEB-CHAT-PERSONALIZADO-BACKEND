@@ -4,7 +4,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const askOpenAI = async (systemPrompt, userPrompt) => {
+const askOpenAI = async (businessPrompt, userPrompt) => {
 
   const messages = [
     { role: "system", content: "Eres un asistente virtual de un negocio. Responde usando la información del cliente." },
@@ -19,13 +19,18 @@ const askOpenAI = async (systemPrompt, userPrompt) => {
     max_tokens: 200,
   });
 
+  // ✅ Mostrar tokens usados (si están disponibles)
+  if (response.usage) {
+    console.log("Tokens usados (prompt):", response.usage.prompt_tokens);
+    console.log("Tokens usados (completion):", response.usage.completion_tokens);
+    console.log("Tokens usados (total):", response.usage.total_tokens);
+  } else {
+    console.log("No se pudo obtener el uso de tokens.");
+  }
+
+
   return response.choices[0].message.content;
 };
-  
-
-  // ✅ Puedes mostrar cuántos tokens se usaron (opcional)
-  const usage = response.usage;
-  console.log("Tokens usados:", usage);
 
 
 module.exports = { askOpenAI };
