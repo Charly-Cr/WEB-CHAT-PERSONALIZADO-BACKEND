@@ -5,6 +5,7 @@ const createAgentPrompt = (userData, businessData, servicesData, userPrompt) => 
   const location = businessData.location || "ubicación no disponible";
   const hours = businessData.hours || "horario no disponible";
   const description = businessData.description || "";
+  const website = businessData.website || "";
   const contact = businessData.contactInfo || {};
   const phone = contact.phone || "no disponible";
   const email = contact.email || "no disponible";
