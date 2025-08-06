@@ -17,21 +17,22 @@ const createAgentPrompt = (userData, businessData, servicesData, userPrompt) => 
   //   .join("\n");
 
 
-  // const serviceList = servicesData.map(service => {
-  //   return `- ${service.name} | Precio: S/ ${service.price} | Duración: ${service.duration || "Variable"} min`;
-  // }).join("\n");
+  //const services = servicesData.slice(0, 3).map(s => s.name).join(", ") || "Sin servicios";
 
   const ownerName = `${userData.firstName || ""} ${userData.lastName || ""}`.trim();
   const businessName = businessData.businessName;
   const businessType = businessData.businessType || "negocio";
   const location = businessData.location;
   const phone = businessData.contactInfo?.phone;
-  const services = servicesData.slice(0, 3).map(s => s.name).join(", ") || "Sin servicios";
+  
+  const serviceList = servicesData.map(service => {
+    return `- ${service.name} | Precio: S/ ${service.price} | Duración: ${service.duration || "Variable"} min`;
+  }).join("\n");
 
 
   return `
 Asistente de "${businessName}", un ${businessType} de ${ownerName}.
-Servicios: ${services}.
+Servicios: ${serviceList}.
 Ubicación: ${location}. Contacto: ${phone}.
 Responde en máximo 30 palabras y solo sobre el negocio.
 Cliente: "${userPrompt}"
