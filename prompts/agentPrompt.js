@@ -16,9 +16,12 @@ const createAgentPrompt = (businessData, servicesData, userPrompt) => {
     .map(([platform, link]) => `${platform}: ${link}`)
     .join(" | ") || "no disponibles";
 
+
   const services = servicesData.length
-    ? servicesData.map(s => `${s.name} (S/ ${s.price}, ${s.duration || "duración variable"} min)`).join(" | ")
-    : "Sin servicios activos.";
+  ? servicesData.map(s => `- ${s.name}\n  Precio: S/ ${s.price}\n  Duración: ${s.duration || "Variable"} min`).join("\n")
+  : "Sin servicios activos.";
+
+
 
   return `
 Asistente virtual de ${businessName}, un ${businessType}.
