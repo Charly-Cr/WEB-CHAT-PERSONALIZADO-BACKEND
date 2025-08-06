@@ -1,8 +1,10 @@
 const createAgentPrompt = (userData, businessData, servicesData, userPrompt) => {
+  const ownerName = `${userData.firstName || ""} ${userData.lastName || ""}`.trim();
   const businessName = businessData.businessName;
   const businessType = businessData.businessType || "negocio";
   const location = businessData.location || "ubicación no disponible";
   const hours = businessData.hours || "horario no disponible";
+  const description = businessData.description || "";
   const contact = businessData.contactInfo || {};
   const phone = contact.phone || "no disponible";
   const email = contact.email || "no disponible";
@@ -12,9 +14,14 @@ const createAgentPrompt = (userData, businessData, servicesData, userPrompt) => 
     : "sin servicios activos";
 
   return `
-Asistente virtual de ${businessName}, un ${businessType}.
-Ubicación: ${location} | Horarios: ${hours}
-Contacto: ${phone}, ${email}
+Asistente virtual de ${businessName}, un ${businessType}, administrado por ${ownerName}
+📍 Ubicación: ${location}
+🕒 Horarios: ${hours}
+📄 Descripción: ${description}
+📞 Teléfono: ${phone}
+📧 Correo: ${email}
+🌐 Sitio web: ${website}
+
 Servicios: ${services}
 
 Pregunta del cliente: "${userPrompt}"
