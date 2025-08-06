@@ -7,10 +7,9 @@ const openai = new OpenAI({
 const askOpenAI = async (businessPrompt, userPrompt) => {
 
   const messages = [
-    { role: "system", content: "Eres un asistente virtual de un negocio. Responde usando la información del cliente." },
-    { role: "user", content: businessPrompt },
-    { role: "user", content: userPrompt },
-  ];
+  { role: "system", content: businessPrompt }, // Aquí está todo el contexto del negocio
+  { role: "user", content: userPrompt },       // Aquí está la pregunta del cliente
+];
 
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",

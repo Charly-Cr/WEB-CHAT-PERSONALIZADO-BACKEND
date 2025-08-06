@@ -1,39 +1,33 @@
 const createAgentPrompt = (businessData, servicesData) => {
-  const name = businessData.businessName;
-  const type = businessData.businessType || "negocio";
-  const location = businessData.location || "Ubicación no disponible";
-  const hours = businessData.hours || "Horario no disponible";
-  const phone = businessData.contactInfo?.phone || "No disponible";
-  const email = businessData.contactInfo?.email || "No disponible";
-  const website = businessData.website || "No disponible";
-  const socialLinks = Object.entries(businessData.socialLinks || {})
+  const {
+    businessName,
+    businessType,
+    location,
+    hours,
+    contactInfo = {},
+    website,
+    socialLinks = {}
+  } = businessData;
+
+  const { phone, email } = contactInfo;
+
+  const socials = Object.entries(socialLinks)
     .filter(([_, link]) => !!link)
     .map(([platform, link]) => `${platform}: ${link}`)
-    .join(" | ") || "No disponibles";
+    .join(" | ");
 
   const services = servicesData.length
-    ? servicesData.map(s => `${s.name} - S/ ${s.price} - ${s.duration || "var"}min`).join(" | ")
-    : "No hay servicios.";
+    ? servicesData.map(s => `${s.name} (S/ ${s.price}, ${s.duration || "duración variable"} min)`).join(" | ")
+    : "Sin servicios activos.";
 
   return `
-Nombre: ${name}
-Tipo: ${type}
-Ubicación: ${location}
-Horario: ${hours}
-Teléfono: ${phone}
-Correo: ${email}
-Web: ${website}
-Redes: ${socialLinks}
-Servicios: ${services}
+Eres el asistente virtual de ${businessName}, un ${businessType}.
+Ubicado en ${location}. Horario: ${hours}.
+Contacto: ${phone}, ${email}. Web: ${website}.
+Redes: ${socials || "Ninguna"}.
+Servicios: ${services}.
+Responde solo sobre este negocio. Si no sabes algo, sugiere contactar por teléfono o redes.
 `.trim();
 };
 
 module.exports = { createAgentPrompt };
-
-  
-
-
-
-
-
-
