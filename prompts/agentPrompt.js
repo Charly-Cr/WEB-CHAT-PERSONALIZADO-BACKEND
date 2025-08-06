@@ -13,7 +13,9 @@ const createAgentPrompt = (userData, businessData, servicesData, userPrompt) => 
     : "sin servicios activos";
 
   return `
-Asistente virtual de ${businessName}, un ${businessType}.
+Eres un asistente virtual para el negocio "${businessName}", un ${businessType}.
+Responde de forma breve (máx. 30 palabras) y solo sobre los servicios del negocio.
+No hables de temas no relacionados. Si no sabes algo, sugiere contactar por teléfono.
 Ubicación: ${location} | Horarios: ${hours}
 Descripción: ${description}
 Contacto: ${phone}, ${email}

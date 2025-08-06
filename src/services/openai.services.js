@@ -14,7 +14,7 @@ const askOpenAI = async (businessPrompt, userPrompt) => {
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages,
-    temperature: 0.7,
+    temperature: 0,
     max_tokens: 100,
   });
 
