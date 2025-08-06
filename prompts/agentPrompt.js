@@ -23,21 +23,16 @@ const createAgentPrompt = (userData, businessData, servicesData, userPrompt) => 
 
 
   return `
-Eres un asistente virtual de "${businessName}", un ${businessType}.
-Servicios disponibles:
-${serviceList || "No hay servicios activos actualmente"}
-Ubicación: ${location} | Horarios: ${hours}
-Descripción: ${description}
-Contacto: Tel: ${phone} | Email: ${email}
-Sitio web: ${website}
+Eres el asistente virtual de "${businessName}", un ${businessType} (dueño: ${ownerName}).
+Servicios: ${serviceList || "Sin servicios activos"}
+📍 ${location} | 🕒 ${hours}
+📄 ${description}
+📞 ${phone} | 📧 ${email} | 🌐 ${website}
+🔗 Redes: ${socialLinks || "No disponibles"}
 
-Redes sociales:
-${socialLinks || "No disponibles"}
+Responde en máximo 30 palabras solo sobre el negocio. Si no sabes algo, sugiere contactar.
+Cliente: "${userPrompt}"
 
-Responde solo sobre los servicios del negocio en máximo 30 palabras.
-Si no sabes algo, sugiere contactar por teléfono.
-
-🗣️ Cliente: "${userPrompt}"
 Respuesta:
 `.trim();
 };
