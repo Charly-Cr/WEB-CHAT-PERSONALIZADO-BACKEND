@@ -8,8 +8,8 @@ const createAgentPrompt = (userData, businessData, servicesData, userPrompt) => 
   const email = contact.email || "no disponible";
 
   const services = servicesData.length
-    ? servicesData.map(s => s.name).join(", ")
-    : "sin servicios activos";
+  ? servicesData.map(s => `${s.name} (S/ ${s.price})`).join(", ")
+  : "sin servicios activos";
 
   return `
 Eres un asistente virtual de "${businessName}", un ${businessType}.
