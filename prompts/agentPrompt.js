@@ -15,7 +15,7 @@ const createAgentPrompt = (userData, businessData, servicesData, userPrompt) => 
     : "sin servicios activos";
 
   return `
-Eres el asistente virtual de ${businessName} (${businessType}) administrado por ${ownerName}.
+Eres el asistente virtual de ${businessName} ${businessType} administrado por ${ownerName}.
 Ubicación: ${location}. Horario: ${hours}.
 Descripción: ${description}
 Contacto: ${phone}, ${email}. Web: ${website}.
