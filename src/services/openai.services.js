@@ -15,7 +15,7 @@ const askOpenAI = async (businessPrompt, userPrompt) => {
     model: "gpt-3.5-turbo",
     messages,
     temperature: 0.7,
-    max_tokens: 150,
+    max_tokens: 200,
   });
 
   // ✅ Mostrar tokens usados (si están disponibles)
