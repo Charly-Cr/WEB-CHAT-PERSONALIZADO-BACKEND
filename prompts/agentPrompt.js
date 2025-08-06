@@ -3,27 +3,25 @@ const createAgentPrompt = (userData, businessData, servicesData, userPrompt) => 
   const businessType = businessData.businessType || "negocio";
   const location = businessData.location || "ubicación no disponible";
   const hours = businessData.hours || "horario no disponible";
-  const description = businessData.description || "";
   const contact = businessData.contactInfo || {};
   const phone = contact.phone || "no disponible";
   const email = contact.email || "no disponible";
 
   const services = servicesData.length
-    ? servicesData.map(s => `${s.name}`).join(", ")
+    ? servicesData.map(s => s.name).join(", ")
     : "sin servicios activos";
 
   return `
-Eres un asistente virtual para el negocio "${businessName}", un ${businessType}.
-Responde de forma breve (máx. 30 palabras) y solo sobre los servicios del negocio.
-No hables de temas no relacionados. Si no sabes algo, sugiere contactar por teléfono.
+Eres un asistente virtual de "${businessName}", un ${businessType}.
+Servicios: ${services}.
 Ubicación: ${location} | Horarios: ${hours}
-Descripción: ${description}
-Contacto: ${phone}, ${email}
-Servicios: ${services}
+Contacto: Tel: ${phone} | Email: ${email}
 
-Pregunta del cliente: "${userPrompt}"
+Responde solo sobre los servicios del negocio en máximo 30 palabras.
+Si no sabes algo, sugiere contactar por teléfono.
 
-Responde solo sobre el negocio. Si no sabes algo, sugiere contactar por teléfono o redes.
+🗣️ Cliente: "${userPrompt}"
+Respuesta:
 `.trim();
 };
 
