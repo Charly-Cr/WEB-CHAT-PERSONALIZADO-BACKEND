@@ -1,44 +1,25 @@
 const createAgentPrompt = (userData, businessData, servicesData, userPrompt) => {
-  const ownerName = `${userData.firstName || ""} ${userData.lastName || ""}`.trim();
-  const {
-    businessName,
-    businessType = "negocio",
-    location = "Ubicación no especificada",
-    hours = "Horario no disponible",
-    description = "",
-    website = "",
-    contactInfo = {},
-    socialLinks = {}
-  } = businessData;
+  const businessName = businessData.businessName;
+  const businessType = businessData.businessType || "negocio";
+  const location = businessData.location || "ubicación no disponible";
+  const hours = businessData.hours || "horario no disponible";
+  const contact = businessData.contactInfo || {};
+  const phone = contact.phone || "no disponible";
+  const email = contact.email || "no disponible";
 
-  const { phone = "No disponible", email = "No disponible" } = contactInfo;
-
-  const social = Object.entries(socialLinks)
-    .filter(([_, value]) => value)
-    .map(([platform, link]) => `${platform}: ${link}`)
-    .join(" | ") || "No disponibles";
-
-  const serviceList = servicesData.length
-    ? servicesData.map(s => `- ${s.name} (S/ ${s.price}, ${s.duration || "Variable"} min)`).join("\n")
-    : "No hay servicios activos actualmente.";
+  const services = servicesData.length
+    ? servicesData.map(s => `${s.name}`).join(", ")
+    : "sin servicios activos";
 
   return `
-Negocio: ${businessName} (${businessType})
-Administrador: ${ownerName}
-Ubicación: ${location}
-Horario: ${hours}
-Descripción: ${description}
-Teléfono: ${phone}
-Correo: ${email}
-Sitio web: ${website}
-Redes: ${social}
-
-Servicios:
-${serviceList}
+Asistente virtual de ${businessName}, un ${businessType}.
+Ubicación: ${location} | Horarios: ${hours}
+Contacto: ${phone}, ${email}
+Servicios: ${services}
 
 Pregunta del cliente: "${userPrompt}"
 
-Responde como asistente del negocio. Si no sabes algo, sugiere contactar por teléfono o redes. Solo responde preguntas relacionadas con el negocio o sus servicios.
+Responde solo sobre el negocio. Si no sabes algo, sugiere contactar por teléfono o redes.
 `.trim();
 };
 
