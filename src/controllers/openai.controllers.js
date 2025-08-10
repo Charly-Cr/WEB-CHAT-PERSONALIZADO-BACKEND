@@ -7,9 +7,9 @@ const { matchFAQ } = require("../utils/faqMatcher");
 const handleAIMessage = async (req, res) => {
   try {
     const { businessId, message: userPrompt } = req.body;
-    const { tokenWarning } = req;
+    const { tokenWarning } = req; // ya no usamos businessData directo
 
-    // Traer datos frescos desde BD
+    // 🔹 Asegurar que siempre traemos el negocio actualizado de DB
     const businessData = await business.findByPk(businessId);
     if (!businessData) {
       return res.status(404).json({ error: "Negocio no encontrado" });
@@ -20,30 +20,26 @@ const handleAIMessage = async (req, res) => {
       where: { businessId, isActive: true },
     });
 
-    // Buscar en FAQs
+    // 🔹 Primero buscamos en FAQs
     const faqResponse = await matchFAQ(userPrompt, businessId);
     if (faqResponse) {
       return res.json({
         response: faqResponse,
         source: "faq",
-        tokensUsedNow: 0,
-        totalTokensUsed: businessData.tokensUsed ?? 0,
         tokenWarning: tokenWarning || null
       });
     }
 
-    // Preguntar a OpenAI
+    // 🔹 Creamos prompt y pedimos a OpenAI
     const systemPrompt = createAgentPrompt(ownerUser, businessData, servicesData, userPrompt);
     const aiResponse = await askOpenAI(systemPrompt, userPrompt);
 
-    // Calcular tokens
+    // 🔹 Calculamos y acumulamos tokens
     const tokensUsedNow = aiResponse.usage?.total_tokens || 0;
     const currentTokens = businessData.tokensUsed ?? 0;
     const updatedTokens = currentTokens + tokensUsedNow;
 
-    // Guardar en BD
-    businessData.tokensUsed = updatedTokens;
-    await businessData.save(); // 👈 Esto asegura que se guarde
+    await businessData.update({ tokensUsed: updatedTokens });
 
     res.json({
       response: aiResponse.text,

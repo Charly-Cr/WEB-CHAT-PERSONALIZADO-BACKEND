@@ -1,12 +1,11 @@
-// middlewares/checkTokenLimit.js
 const { business } = require("../models");
 
 const checkTokensLimit = async (req, res, next) => {
   try {
     const { businessId } = req.body;
 
-    // Traer siempre datos frescos de la BD
-    const businessData = await business.findByPk(businessId);
+    // Siempre obtener datos frescos de la BD
+    const businessData = await business.findByPk(businessId, { raw: true });
     if (!businessData) {
       return res.status(404).json({ error: "Negocio no encontrado" });
     }
@@ -23,7 +22,7 @@ const checkTokensLimit = async (req, res, next) => {
 
     const tokensUsed = businessData.tokensUsed ?? 0;
 
-    // Bloquear si se superó el límite
+    // Bloquear si ya alcanzó el límite
     if (tokensUsed >= tokenLimit) {
       return res.status(403).json({
         error: `Has alcanzado tu límite de ${tokenLimit} tokens para el plan ${planType}`,
@@ -32,7 +31,7 @@ const checkTokensLimit = async (req, res, next) => {
       });
     }
 
-    // Avisar si queda poco margen
+    // Aviso si está cerca del límite
     if (tokenLimit - tokensUsed <= 50) {
       req.tokenWarning = {
         message: "⚠️ Estás cerca de tu límite de tokens",
@@ -41,13 +40,13 @@ const checkTokensLimit = async (req, res, next) => {
       };
     }
 
-    // Guardar datos actualizados para uso en el controlador
-    req.businessData = businessData;
+    // Guardar datos en req para el controlador
+    req.businessData = { ...businessData }; // datos planos, no instancia de Sequelize
     req.tokenLimit = tokenLimit;
 
     next();
   } catch (err) {
-    console.error("Error en checkTokenLimit:", err);
+    console.error("Error en checkTokensLimit:", err);
     res.status(500).json({ error: "Error interno al verificar límite de tokens" });
   }
 };

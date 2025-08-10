@@ -82,6 +82,12 @@ module.exports = (sequelize, DataTypes) => {
     allowNull: false,
     unique: true,
     },
+    tokensUsed: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+    comment: "Cantidad de tokens usados por el negocio",
+    },
     primaryColor: {
     type: DataTypes.STRING,
     defaultValue: '#4f46e5',
