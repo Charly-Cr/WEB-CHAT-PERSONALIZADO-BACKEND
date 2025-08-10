@@ -1,5 +1,4 @@
-// controllers/openai.controllers.js
-const { service, user } = require("../models");
+const { service, user, business } = require("../models");
 const { askOpenAI } = require("../services/openai.services");
 const { createAgentPrompt } = require("../../prompts/agentPrompt");
 const { matchFAQ } = require("../utils/faqMatcher");
@@ -17,7 +16,11 @@ const handleAIMessage = async (req, res) => {
     // Buscar en FAQs
     const faqResponse = await matchFAQ(userPrompt, businessId);
     if (faqResponse) {
-      return res.json({ response: faqResponse, source: "faq", tokenWarning: tokenWarning || null });
+      return res.json({
+        response: faqResponse,
+        source: "faq",
+        tokenWarning: tokenWarning || null
+      });
     }
 
     // Crear prompt y preguntar a OpenAI
@@ -27,18 +30,19 @@ const handleAIMessage = async (req, res) => {
     // Actualizar tokens usados en DB
     const tokensUsedNow = aiResponse.usage?.total_tokens || 0;
 
-  // Asegurar que tokensUsed nunca sea null
-  const currentTokens = businessData.tokensUsed ?? 0;
-  const updatedTokens = currentTokens + tokensUsedNow;
+    // Volver a consultar el negocio para asegurar valor actualizado
+    const freshBusiness = await business.findByPk(businessId);
+    const currentTokens = freshBusiness.tokensUsed ?? 0;
+    const updatedTokens = currentTokens + tokensUsedNow;
 
-  await businessData.update({ tokensUsed: updatedTokens });
+    await freshBusiness.update({ tokensUsed: updatedTokens });
 
-  res.json({
+    res.json({
       response: aiResponse.text,
       tokensUsedNow,
       totalTokensUsed: updatedTokens,
       tokenWarning: tokenWarning || null
-});
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error interno al generar respuesta" });
@@ -46,6 +50,7 @@ const handleAIMessage = async (req, res) => {
 };
 
 module.exports = { handleAIMessage };
+
 
 
 
