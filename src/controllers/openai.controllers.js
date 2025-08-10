@@ -1,9 +1,7 @@
 const { business, service, user } = require("../models");
 const { askOpenAI } = require("../services/openai.services");
-//const { createAgentPrompt } = require("../../prompts/agentPrompt");
+const { createAgentPrompt } = require("../../prompts/agentPrompt");
 const { matchFAQ } = require("../utils/faqMatcher");
-const { createAgentData } = require("../utils/createAgentData");
-const { convertAgentDataToPrompt } = require("../utils/convertAgentDataToPrompt");
 
 
 const handleAIMessage = async (req, res) => {
@@ -30,13 +28,9 @@ const handleAIMessage = async (req, res) => {
     }
 
     // Si no hay buena coincidencia, usamos OpenAI
-    //const systemPrompt = createAgentPrompt(ownerUser, businessData, servicesData, userPrompt);
+    const systemPrompt = createAgentPrompt(ownerUser, businessData, servicesData, userPrompt);
     
-    // 2. Crear JSON optimizado
-    const agentData = createAgentData(ownerUser, businessData, servicesData);
-
-    // 3. Convertir a texto para GPT-3.5
-    const systemPrompt = convertAgentDataToPrompt(agentData, userPrompt);
+    
     // 4. Enviar a OpenAI
     const aiResponse = await askOpenAI(systemPrompt, userPrompt);
 
