@@ -1,23 +1,4 @@
 const createAgentPrompt = (userData, businessData, servicesData, userPrompt) => {
-  // const ownerName = `${userData.firstName || ""} ${userData.lastName || ""}`.trim();
-  // const businessName = businessData.businessName;
-  // const businessType = businessData.businessType || "negocio";
-  // const location = businessData.location || "ubicación no disponible";
-  // const hours = businessData.hours || "horario no disponible";
-  // const description = businessData.description || "";
-  // const website = businessData.website || "";
-  // const contact = businessData.contactInfo || {};
-  // const phone = contact.phone || "no disponible";
-  // const email = contact.email || "no disponible";
-
-  // const social = businessData.socialLinks || {};
-  // const socialLinks = Object.entries(social)
-  //   .filter(([_, value]) => value && value !== "")
-  //   .map(([platform, link]) => `${platform}: ${link}`)
-  //   .join("\n");
-
-
-  //const services = servicesData.slice(0, 3).map(s => s.name).join(", ") || "Sin servicios";
 
   const ownerName = `${userData.firstName || ""} ${userData.lastName || ""}`.trim();
   const businessName = businessData.businessName;
@@ -30,7 +11,6 @@ const createAgentPrompt = (userData, businessData, servicesData, userPrompt) => 
 }).join("\n");
 
 const moreServicesNote = servicesData.length > 5 ? "\n...y más servicios disponibles. Pregunta para más detalles." : "";
-
 
   return `
 Asistente de "${businessName}", un ${businessType} de ${ownerName}.
