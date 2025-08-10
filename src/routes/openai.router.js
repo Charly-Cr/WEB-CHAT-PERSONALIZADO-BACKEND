@@ -3,10 +3,11 @@ const express = require('express');
 const { verifyJWT } = require('../utils/verifyJWT');
 const verifyRoles = require('../utils/verifyRoles');
 const validateBusinessAccess = require('../middlewares/multiTenantAuth');
+const checkTokensLimit = require('../middlewares/checkTokensLimit');
 
 const openiaRouter = express.Router();
 
 openiaRouter.route('/')
-    .post(verifyJWT, verifyRoles('superadmin', 'admin', 'employed'), validateBusinessAccess, handleAIMessage)
+    .post(verifyJWT, verifyRoles('superadmin', 'admin', 'employed'), validateBusinessAccess, checkTokensLimit, handleAIMessage)
 
 module.exports = openiaRouter;
