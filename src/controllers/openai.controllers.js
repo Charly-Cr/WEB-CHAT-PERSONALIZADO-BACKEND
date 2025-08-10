@@ -1,3 +1,4 @@
+// controllers/openai.controllers.js
 const { service, user } = require("../models");
 const { askOpenAI } = require("../services/openai.services");
 const { createAgentPrompt } = require("../../prompts/agentPrompt");
@@ -5,51 +6,44 @@ const { matchFAQ } = require("../utils/faqMatcher");
 
 const handleAIMessage = async (req, res) => {
   try {
-    const { message: userPrompt } = req.body;
-    const businessData = req.businessData; // viene del middleware
-    const ownerUser = await user.findByPk(businessData.userId);
+    const { businessId, message: userPrompt } = req.body;
+    const { businessData, tokenWarning } = req;
 
+    const ownerUser = await user.findByPk(businessData.userId);
     const servicesData = await service.findAll({
-      where: {
-        businessId: businessData.id,
-        isActive: true,
-      },
+      where: { businessId, isActive: true },
     });
 
-    // 1. FAQ primero
-    const faqResponse = await matchFAQ(userPrompt, businessData.id);
+    // Buscar en FAQs
+    const faqResponse = await matchFAQ(userPrompt, businessId);
     if (faqResponse) {
-      return res.json({
-        response: faqResponse,
-        source: "faq",
-        tokenWarning: req.tokenWarning
-      });
+      return res.json({ response: faqResponse, source: "faq", tokenWarning: tokenWarning || null });
     }
 
-    // 2. Prompt para OpenAI
+    // Crear prompt y preguntar a OpenAI
     const systemPrompt = createAgentPrompt(ownerUser, businessData, servicesData, userPrompt);
-    const { text, usage } = await askOpenAI(systemPrompt, userPrompt);
+    const aiResponse = await askOpenAI(systemPrompt, userPrompt);
 
-    // 3. Guardar uso de tokens
-    if (usage) {
-      const totalTokens = usage.total_tokens || 0;
-      await businessData.update({
-        tokensUsed: (businessData.tokensUsed || 0) + totalTokens
-      });
-    }
+    // Actualizar tokens usados en DB
+    const tokensUsedNow = aiResponse.usage?.total_tokens || 0;
+    await businessData.update({
+      tokensUsed: (businessData.tokensUsed || 0) + tokensUsedNow
+    });
 
     res.json({
-      response: text,
-      tokensUsedNow: usage?.total_tokens || 0,
-      tokenWarning: req.tokenWarning
+      response: aiResponse.text,
+      tokensUsedNow,
+      totalTokensUsed: businessData.tokensUsed + tokensUsedNow,
+      tokenWarning: tokenWarning || null
     });
   } catch (err) {
-    console.error("Error en handleAIMessage:", err);
+    console.error(err);
     res.status(500).json({ error: "Error interno al generar respuesta" });
   }
 };
 
 module.exports = { handleAIMessage };
+
 
 
 
