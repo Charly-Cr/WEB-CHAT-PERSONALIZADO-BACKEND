@@ -6,6 +6,10 @@ const openai = new OpenAI({
 
 const askOpenAI = async (businessPrompt, userPrompt) => {
 
+  onsole.log("📩 Llamada a askOpenAI con:");
+  console.log("📌 businessPrompt:", businessPrompt);
+  console.log("📌 userPrompt:", userPrompt);
+
   const messages = [
   { role: "system", content: businessPrompt }, // Aquí está todo el contexto del negocio
   { role: "user", content: userPrompt },       // Aquí está la pregunta del cliente
