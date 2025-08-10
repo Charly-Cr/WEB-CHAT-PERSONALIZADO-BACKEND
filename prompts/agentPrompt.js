@@ -17,7 +17,7 @@ Asistente de "${businessName}", un ${businessType} de ${ownerName}.
 Servicios disponibles:
 ${serviceList}${moreServicesNote}
 Ubicación: ${location}. Contacto: ${phone}.
-Responde en máximo 30 palabras y solo sobre el negocio.
+Responde en máximo 15 palabras y solo sobre el negocio.
 Cliente: "${userPrompt}"
 
 Respuesta:
