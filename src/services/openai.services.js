@@ -18,14 +18,15 @@ const askOpenAI = async (businessPrompt, userPrompt) => {
     max_tokens: 50,
   });
 
-  // ✅ Mostrar tokens usados (si están disponibles)
-  if (response.usage) {
-    console.log("Tokens usados (prompt):", response.usage.prompt_tokens);
-    console.log("Tokens usados (completion):", response.usage.completion_tokens);
-    console.log("Tokens usados (total):", response.usage.total_tokens);
-  } else {
-    console.log("No se pudo obtener el uso de tokens.");
-  }
+  console.log("Respuesta completa:", JSON.stringify(response, null, 2));
+
+if (response.usage) {
+  console.log("Tokens usados (prompt):", response.usage.prompt_tokens);
+  console.log("Tokens usados (completion):", response.usage.completion_tokens);
+  console.log("Tokens usados (total):", response.usage.total_tokens);
+} else {
+  console.log("No se pudo obtener el uso de tokens.");
+}
 
 
   return response.choices[0].message.content;
