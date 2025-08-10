@@ -16,7 +16,7 @@ const askOpenAI = async (
 ) => {
   const {
     model = "gpt-3.5-turbo",
-    max_tokens = 100,
+    max_tokens = 50,
     temperature = 0,
   } = options;
 
