@@ -45,13 +45,6 @@ module.exports = { handleAIMessage };
 
     
 
-    
-
-    
-
-
-
-
 
 
 // ! CONTROLADOR PARA  UN USUARIO LOGEADO 
