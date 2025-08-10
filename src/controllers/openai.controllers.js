@@ -26,16 +26,19 @@ const handleAIMessage = async (req, res) => {
 
     // Actualizar tokens usados en DB
     const tokensUsedNow = aiResponse.usage?.total_tokens || 0;
-    await businessData.update({
-      tokensUsed: (businessData.tokensUsed || 0) + tokensUsedNow
-    });
 
-    res.json({
+  // Asegurar que tokensUsed nunca sea null
+  const currentTokens = businessData.tokensUsed ?? 0;
+  const updatedTokens = currentTokens + tokensUsedNow;
+
+  await businessData.update({ tokensUsed: updatedTokens });
+
+  res.json({
       response: aiResponse.text,
       tokensUsedNow,
-      totalTokensUsed: businessData.tokensUsed + tokensUsedNow,
+      totalTokensUsed: updatedTokens,
       tokenWarning: tokenWarning || null
-    });
+});
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error interno al generar respuesta" });

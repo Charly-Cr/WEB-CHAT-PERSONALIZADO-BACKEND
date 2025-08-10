@@ -1,4 +1,3 @@
-// middlewares/checkTokenLimit.js
 const { business } = require("../models");
 
 const checkTokensLimit = async (req, res, next) => {
@@ -10,7 +9,7 @@ const checkTokensLimit = async (req, res, next) => {
       return res.status(404).json({ error: "Negocio no encontrado" });
     }
 
-    // Configuración de límites según plan
+    // Límites por plan
     const planLimits = {
       basic: 500,
       premium: 2000,
@@ -19,27 +18,28 @@ const checkTokensLimit = async (req, res, next) => {
 
     const planType = businessData.planType || "basic";
     const tokenLimit = planLimits[planType] || 500;
-
     const tokensUsed = businessData.tokensUsed || 0;
 
-    // Bloquea si ya superó el límite
+    // 🚫 Bloquear si ya pasó el límite
     if (tokensUsed >= tokenLimit) {
       return res.status(403).json({
-        error: `Has alcanzado tu límite de ${tokenLimit} tokens para el plan ${planType}`,
+        error: `🚫 Has alcanzado tu límite de ${tokenLimit} tokens para el plan "${planType}".`,
         tokensUsed,
         tokenLimit
       });
     }
 
-    // Avisar si queda poco margen
-    if (tokenLimit - tokensUsed <= 50) {
+    // ⚠️ Avisar si está por encima del 80% del límite
+    const usagePercentage = (tokensUsed / tokenLimit) * 100;
+    if (usagePercentage >= 80) {
       req.tokenWarning = {
-        message: "⚠️ Estás cerca de tu límite de tokens",
+        message: `⚠️ Has usado el ${usagePercentage.toFixed(1)}% de tu límite de tokens.`,
         tokensUsed,
         tokenLimit
       };
     }
 
+    // Guardamos info para los controladores
     req.businessData = businessData;
     req.tokenLimit = tokenLimit;
 
