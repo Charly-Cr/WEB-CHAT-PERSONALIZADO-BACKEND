@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       business.belongsTo(models.user, { foreignKey: "userId" })
       business.hasMany(models.service, { foreignKey: "businessId" })
+      business.belongsTo(models.plan, { foreignKey: "planId" });
     }
   }
   business.init({
@@ -76,6 +77,15 @@ module.exports = (sequelize, DataTypes) => {
         model: 'user',
         key: 'id'
       },
+    },
+    planId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 1, // Por defecto el plan básico (id=1)
+    references: {
+    model: "plan", // Referencia a la tabla 'plan'
+    key: "id"
+      }
     },
     slug: {
     type: DataTypes.STRING,

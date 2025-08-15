@@ -5,6 +5,7 @@ const serviceRouter = require('./service.router');
 const openiaRouter = require('./openai.router');
 const faqRouter = require('./faq.router');
 const chatlogRouter = require('./chatlog.router');
+const planRouter = require('./plan.router');
 const router = express.Router();
 
 // colocar las rutas aquí
@@ -14,6 +15,7 @@ router.use('/services', serviceRouter)
 router.use('/openias', openiaRouter)
 router.use('/faqs', faqRouter)
 router.use('/chatlogs', chatlogRouter);
+router.use('/plans', planRouter)
 
 
 module.exports = router;
