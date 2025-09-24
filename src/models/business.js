@@ -117,6 +117,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'business',
+    timestamps: true, // ✅ Sequelize maneja createdAt y updatedAt
   });
   return business;
 };

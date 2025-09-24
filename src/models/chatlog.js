@@ -51,6 +51,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'chatlog',
+    timestamps: true, // ✅ Sequelize maneja createdAt y updatedAt
   });
   return chatlog;
 };

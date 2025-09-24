@@ -10,7 +10,7 @@ businessRouter.route('/')
     .post(verifyJWT, verifyRoles('superadmin', 'admin'), create);
 
 businessRouter.route('/slug/:slug')
-    .get( verifyJWT, showBySlug );
+    .get( showBySlug );
 
 businessRouter.route('/:id')
     .get(verifyJWT, verifyRoles('superadmin', 'admin'), getOne)

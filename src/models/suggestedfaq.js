@@ -66,6 +66,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'suggestedfaq',
+    timestamps: true, // ✅ Sequelize maneja createdAt y updatedAt
   });
   return suggestedfaq;
 };
