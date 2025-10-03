@@ -9,6 +9,15 @@ require('./models')
 
 const app = express();
 
+// AÑADIR ESTE BLOQUE
+if (process.env.NODE_ENV === 'production') {
+    // *** CAMBIO CRÍTICO AÑADIDO: Habilitar la confianza en el proxy ***
+    // Esto es necesario para que Express detecte que la conexión es HTTPS 
+    // y establezca correctamente el atributo 'Secure' en las cookies en sessionJWT.js. 
+    app.set('trust proxy', 1);
+}
+// FIN DEL BLOQUE AÑADIDO
+
 // middlewares antes de las rutas
 
 // Configurar CORS para permitir cookies
