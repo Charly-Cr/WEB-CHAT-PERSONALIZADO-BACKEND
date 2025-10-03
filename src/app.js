@@ -12,20 +12,22 @@ const app = express();
 // middlewares antes de las rutas
 
 // Configurar CORS para permitir cookies
-const allowedOrigins = [
-  'http://localhost:5173', // frontend local
-  'https://web-chat-personalizado-front.netlify.app' // frontend en producción
+
+// const allowedOrigins = [
+//   'http://localhost:5173', // frontend local
+//   'https://web-chat-personalizado-front.netlify.app' // frontend en producción
   
-];
+// ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  // origin: function (origin, callback) {
+  //   if (!origin || allowedOrigins.includes(origin)) {
+  //     callback(null, true);
+  //   } else {
+  //     callback(new Error('Not allowed by CORS'));
+  //   }
+  // },
+    origin: true,
     credentials: true // Permite el envío de cookies HTTP-only
 }));
 
