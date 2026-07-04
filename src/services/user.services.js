@@ -1,7 +1,9 @@
-const { user, business } = require('../models');
+const { user } = require('../models');
 
 const getAllUser = async () => {
-  return await user.findAll();
+  return await user.findAll({
+    attributes: { exclude: ["password"] }
+});
 }
 
 // Devuelve todos los usuarios sin la contraseña
