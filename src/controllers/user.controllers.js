@@ -63,6 +63,7 @@ const logged = catchError(async (req, res) => {
 });
 
 const logout = catchError(async (req, res) => {
+  console.log(TOKEN)
   res.clearCookie("token");
   return res.json({ message: "Sesión cerrada correctamente" });
 });
